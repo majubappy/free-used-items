@@ -167,6 +167,14 @@
       margin-bottom: 0.7rem;
       transition: transform 0.3s ease;
     }
+    .item-svg {
+      width: 52px;
+      height: 52px;
+      display: block;
+      margin: 0 auto 0.7rem;
+      transition: transform 0.3s ease;
+    }
+    .item-card:hover .item-svg { transform: scale(1.1); }
     .item-card:hover .item-emoji { transform: scale(1.1); }
     .item-name {
       font-weight: 700;
@@ -410,13 +418,31 @@
         <span class="item-tag">FREE</span>
       </div>
       <div class="item-card">
-        <span class="item-emoji">🍽️</span>
+        <svg class="item-svg" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Microwave">
+          <rect x="6" y="14" width="52" height="38" rx="4" fill="#4a4a5a" stroke="#2e2e3a" stroke-width="2"/>
+          <rect x="10" y="18" width="28" height="30" rx="2" fill="#1b1b28"/>
+          <circle cx="24" cy="33" r="9" fill="none" stroke="#7f8c8d" stroke-width="2.5" stroke-dasharray="4 2"/>
+          <circle cx="24" cy="33" r="2.5" fill="#7f8c8d"/>
+          <rect x="41" y="22" width="3" height="10" rx="1" fill="#e8e8f0"/>
+          <rect x="46" y="22" width="3" height="10" rx="1" fill="#e8e8f0"/>
+          <rect x="41" y="34" width="3" height="10" rx="1" fill="#e8e8f0"/>
+          <rect x="46" y="34" width="3" height="10" rx="1" fill="#e8e8f0"/>
+          <rect x="41" y="46" width="11" height="2" rx="1" fill="#c8c8d0"/>
+        </svg>
         <div class="item-name">Microwave</div>
         <span class="item-tag">FREE</span>
       </div>
       <div class="item-card">
         <span class="item-status">Available</span>
-        <span class="item-emoji">🧺</span>
+        <svg class="item-svg" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Washing Machine">
+          <rect x="14" y="6" width="36" height="52" rx="4" fill="#4a90d9" stroke="#2e6bb3" stroke-width="2"/>
+          <circle cx="32" cy="24" r="12" fill="#e8f4ff" stroke="#1e4e8c" stroke-width="2.5"/>
+          <circle cx="32" cy="24" r="6" fill="none" stroke="#2e6bb3" stroke-width="2"/>
+          <circle cx="32" cy="24" r="1.5" fill="#2e6bb3"/>
+          <circle cx="44" cy="11" r="1.8" fill="#1e4e8c"/>
+          <rect x="26" y="42" width="12" height="4" rx="2" fill="#1e4e8c"/>
+          <rect x="22" y="50" width="20" height="2.5" rx="1.25" fill="#2e6bb3"/>
+        </svg>
         <div class="item-name">Washing Machine</div>
         <span class="item-tag">FREE</span>
       </div>

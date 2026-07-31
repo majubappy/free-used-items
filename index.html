@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Free Used Items – Pick Up Near You</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Poppins:wght@600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #f5f6fa;
+      color: #1a1a2e;
+      min-height: 100vh;
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+
+    /* ===== Header ===== */
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      padding: 0.9rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.7rem;
+      background: #fff;
+      border-bottom: 1px solid #e8eaf0;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+    }
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+    .header-icon { font-size: 1.6rem; }
+    .header-text {
+      font-family: 'Poppins', sans-serif;
+      font-size: clamp(1rem, 3vw, 1.3rem);
+      font-weight: 800;
+      color: #1a1a2e;
+    }
+    .header-text .accent { color: #2e7d32; }
+    .header-location {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.8rem;
+      color: #6b7280;
+      background: #f0f2f5;
+      padding: 0.35rem 0.8rem;
+      border-radius: 20px;
+      font-weight: 500;
+    }
+
+    /* ===== Hero ===== */
+    .hero {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 3rem 1.5rem 1.5rem;
+      text-align: center;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      background: #e8f5e9;
+      border: 1px solid #a5d6a7;
+      border-radius: 50px;
+      padding: 0.4rem 1.2rem;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #2e7d32;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 1.5rem;
+      animation: fadeDown 0.7s ease-out;
+    }
+    .badge-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: #4caf50;
+      animation: pulseDot 1.8s ease-in-out infinite;
+    }
+    @keyframes pulseDot {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+    .headline {
+      font-family: 'Poppins', sans-serif;
+      font-size: clamp(2rem, 6vw, 3.6rem);
+      font-weight: 900;
+      line-height: 1.2;
+      color: #1a1a2e;
+      margin-bottom: 1rem;
+      animation: fadeUp 0.8s ease-out;
+    }
+    .headline .highlight {
+      background: linear-gradient(135deg, #2e7d32, #43a047);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .subheadline {
+      font-size: clamp(1rem, 2.5vw, 1.2rem);
+      color: #6b7280;
+      font-weight: 400;
+      margin-bottom: 2rem;
+      max-width: 650px;
+      margin-left: auto;
+      margin-right: auto;
+      animation: fadeUp 0.9s ease-out;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ===== Items Grid ===== */
+    .items-section {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0.5rem 1.5rem 2rem;
+    }
+    .items-title {
+      font-family: 'Poppins', sans-serif;
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: #1a1a2e;
+      margin-bottom: 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .items-title span { font-size: 0.8rem; color: #6b7280; font-weight: 500; }
+    .items-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+    .item-card {
+      background: #fff;
+      border: 1px solid #e8eaf0;
+      border-radius: 16px;
+      padding: 1.5rem 1.2rem;
+      text-align: center;
+      position: relative;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+    }
+    .item-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+      border-color: #c8e6c9;
+    }
+    .item-emoji {
+      font-size: 3rem;
+      display: block;
+      margin-bottom: 0.7rem;
+      transition: transform 0.3s ease;
+    }
+    .item-card:hover .item-emoji { transform: scale(1.1); }
+    .item-name {
+      font-weight: 700;
+      font-size: 1rem;
+      color: #1a1a2e;
+      margin-bottom: 0.2rem;
+    }
+    .item-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      background: #e8f5e9;
+      color: #2e7d32;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 0.25rem 0.7rem;
+      border-radius: 20px;
+      margin-top: 0.5rem;
+    }
+    .item-status {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: #fff3e0;
+      color: #e65100;
+      font-size: 0.65rem;
+      font-weight: 700;
+      padding: 0.2rem 0.6rem;
+      border-radius: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .item-status.hot { background: #ffebee; color: #c62828; }
+
+    /* ===== Features ===== */
+    .features-section {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 1rem 1.5rem 2.5rem;
+    }
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 0.9rem;
+    }
+    .feature-item {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      background: #fff;
+      border: 1px solid #e8eaf0;
+      border-radius: 14px;
+      padding: 0.9rem 1.1rem;
+      font-size: 0.92rem;
+      font-weight: 600;
+      color: #1a1a2e;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+    }
+    .feature-item:hover {
+      border-color: #c8e6c9;
+      transform: translateY(-2px);
+    }
+    .feature-check { font-size: 1.2rem; flex-shrink: 0; }
+
+    /* ===== CTA Sticky ===== */
+    .cta-sticky-wrapper {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      background: linear-gradient(180deg, rgba(245,246,250,0) 0%, rgba(245,246,250,0.97) 25%);
+      padding: 0.8rem 1.5rem 1.2rem;
+      text-align: center;
+      pointer-events: none;
+    }
+    .cta-sticky-wrapper .cta-btn { pointer-events: auto; }
+    .cta-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      font-family: 'Inter', sans-serif;
+      font-size: clamp(1.1rem, 2.5vw, 1.3rem);
+      font-weight: 700;
+      padding: 1rem 2.8rem;
+      border: none;
+      border-radius: 60px;
+      cursor: pointer;
+      position: relative;
+      background: linear-gradient(135deg, #43a047 0%, #2e7d32 50%, #1b5e20 100%);
+      color: #fff;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      letter-spacing: 0.3px;
+      box-shadow: 0 4px 25px rgba(46, 125, 50, 0.35);
+      animation: ctaPulse 2.5s ease-in-out infinite;
+      overflow: hidden;
+      max-width: 420px;
+      width: 100%;
+    }
+    .cta-btn::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 60px;
+      background: linear-gradient(135deg, #66bb6a 0%, #43a047 50%, #2e7d32 100%);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+    .cta-btn:hover::before { opacity: 1; }
+    .cta-btn:hover {
+      transform: translateY(-3px) scale(1.04);
+      box-shadow: 0 8px 40px rgba(46,125,50,0.5);
+      animation: none;
+    }
+    .cta-btn:active { transform: translateY(-1px) scale(1.02); }
+    .cta-btn span { position: relative; z-index: 2; }
+    .cta-icon { position: relative; z-index: 2; font-size: 1.3em; }
+
+    @keyframes ctaPulse {
+      0%, 100% { box-shadow: 0 4px 25px rgba(46,125,50,0.35); }
+      50% { box-shadow: 0 4px 45px rgba(46,125,50,0.6); }
+    }
+
+    .sticky-spacer { height: 90px; }
+
+    /* ===== Trust Badges ===== */
+    .trust-section {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0.5rem 1.5rem 2rem;
+      text-align: center;
+    }
+    .trust-badges {
+      display: inline-flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1.2rem;
+      background: #fff;
+      border: 1px solid #e8eaf0;
+      border-radius: 20px;
+      padding: 1rem 2rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+    }
+    .trust-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: #374151;
+    }
+    .trust-item .trust-icon { font-size: 1.1rem; }
+
+    /* ===== Footer ===== */
+    .footer {
+      text-align: center;
+      padding: 1.5rem;
+      font-size: 0.75rem;
+      color: #9ca3af;
+      border-top: 1px solid #e8eaf0;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* ===== Scroll Reveal ===== */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s cubic-bezier(0.22,1,0.36,1),
+                  transform 0.8s cubic-bezier(0.22,1,0.36,1);
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ===== Responsive ===== */
+    @media (max-width: 480px) {
+      .items-grid { grid-template-columns: 1fr 1fr; gap: 0.7rem; }
+      .features { grid-template-columns: 1fr 1fr; gap: 0.6rem; }
+      .feature-item { font-size: 0.8rem; padding: 0.7rem 0.8rem; }
+      .trust-badges { padding: 0.8rem 1.2rem; gap: 1rem; flex-direction: column; align-items: center; }
+      .cta-btn { padding: 0.9rem 2rem; font-size: 1rem; }
+      .header-location { display: none; }
+    }
+    @media (max-width: 360px) {
+      .items-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== Header ===== -->
+  <header class="header">
+    <div class="header-left">
+      <span class="header-icon">🎁</span>
+      <span class="header-text">Free<span class="accent">Cycle</span> USA</span>
+    </div>
+    <span class="header-location">📍 United States</span>
+  </header>
+
+  <!-- ===== Hero ===== -->
+  <section class="hero">
+    <div class="badge">
+      <span class="badge-dot"></span>
+      Available Now
+    </div>
+    <h1 class="headline">
+      🎁 Free Used Items – <br><span class="highlight">Pick Up Near You!</span>
+    </h1>
+    <p class="subheadline">Browse quality pre-owned items available for free. Limited availability while supplies last.</p>
+  </section>
+
+  <!-- ===== Items Grid ===== -->
+  <section class="items-section reveal">
+    <div class="items-title">
+      📋 Available Items <span>(pickup only)</span>
+    </div>
+    <div class="items-grid">
+      <div class="item-card">
+        <span class="item-status hot">Popular</span>
+        <span class="item-emoji">🚲</span>
+        <div class="item-name">Bicycle</div>
+        <span class="item-tag">FREE</span>
+      </div>
+      <div class="item-card">
+        <span class="item-status hot">Popular</span>
+        <span class="item-emoji">📱</span>
+        <div class="item-name">iPhone</div>
+        <span class="item-tag">FREE</span>
+      </div>
+      <div class="item-card">
+        <span class="item-emoji">🧊</span>
+        <div class="item-name">Fridge</div>
+        <span class="item-tag">FREE</span>
+      </div>
+      <div class="item-card">
+        <span class="item-status">Available</span>
+        <span class="item-emoji">🛏️</span>
+        <div class="item-name">Mattress &amp; Bed</div>
+        <span class="item-tag">FREE</span>
+      </div>
+      <div class="item-card">
+        <span class="item-emoji">🍽️</span>
+        <div class="item-name">Microwave</div>
+        <span class="item-tag">FREE</span>
+      </div>
+      <div class="item-card">
+        <span class="item-status">Available</span>
+        <span class="item-emoji">🧺</span>
+        <div class="item-name">Washing Machine</div>
+        <span class="item-tag">FREE</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Features ===== -->
+  <section class="features-section reveal">
+    <div class="features">
+      <div class="feature-item"><span class="feature-check">✅</span> 100% Free</div>
+      <div class="feature-item"><span class="feature-check">✅</span> Local Pickup</div>
+      <div class="feature-item"><span class="feature-check">✅</span> Limited Availability</div>
+      <div class="feature-item"><span class="feature-check">✅</span> Fast &amp; Easy</div>
+    </div>
+  </section>
+
+  <!-- ===== Spacer ===== -->
+  <div class="sticky-spacer"></div>
+
+  <!-- ===== Trust Badges ===== -->
+  <section class="trust-section reveal">
+    <div class="trust-badges">
+      <span class="trust-item"><span class="trust-icon">🔒</span> SSL Secure</span>
+      <span class="trust-item"><span class="trust-icon">⭐</span> Trusted by Thousands</span>
+      <span class="trust-item"><span class="trust-icon">📍</span> Local Pickup Only</span>
+    </div>
+  </section>
+
+  <!-- ===== Footer ===== -->
+  <footer class="footer">
+    Independent promotional page. Eligibility and availability may vary.
+  </footer>
+
+  <!-- ===== Sticky CTA ===== -->
+  <div class="cta-sticky-wrapper">
+    <a href="https://www.af9m8trk.com/2991123G/L29128D9/?s1=misty" target="_blank" rel="noopener" class="cta-btn">
+      <span class="cta-icon">📦</span>
+      <span>View Available Items</span>
+    </a>
+  </div>
+
+  <script>
+    // ===== Scroll Reveal =====
+    (function() {
+      const reveals = document.querySelectorAll('.reveal');
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+      }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+      reveals.forEach(el => observer.observe(el));
+    })();
+  </script>
+</body>
+</html>
